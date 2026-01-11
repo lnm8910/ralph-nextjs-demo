@@ -49,6 +49,11 @@ export default function ArchivePage() {
   }
 
   async function handleDelete(note: Note) {
+    const confirmed = window.confirm('Are you sure you want to delete this note?')
+    if (!confirmed) {
+      return
+    }
+
     try {
       await fetch(`/api/notes/${note.id}`, {
         method: 'DELETE',
