@@ -116,7 +116,7 @@
         "typecheck passes"
       ],
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": "Start collapsed showing just 'Take a note...'"
     },
@@ -131,7 +131,7 @@
         "typecheck passes"
       ],
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": "Use dialog element or portal for modal"
     },
@@ -146,7 +146,7 @@
         "typecheck passes"
       ],
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": ""
     },
@@ -162,7 +162,7 @@
       ],
       "priority": 11,
       "passes": false,
-      "failedAttempts": 0,
+      "failedAttempts": 1,
       "notes": ""
     },
     {
