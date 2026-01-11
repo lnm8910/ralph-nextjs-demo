@@ -3,11 +3,13 @@
 import { useEffect, useState } from 'react'
 import { NoteCard } from '@/components/NoteCard'
 import { CreateNoteForm } from '@/components/CreateNoteForm'
+import { EditNoteModal } from '@/components/EditNoteModal'
 import type { Note } from '@/db/schema'
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
+  const [editingNote, setEditingNote] = useState<Note | null>(null)
 
   useEffect(() => {
     fetchNotes()
@@ -64,6 +66,18 @@ export default function Home() {
     }
   }
 
+  function handleNoteClick(note: Note) {
+    setEditingNote(note)
+  }
+
+  function handleModalClose() {
+    setEditingNote(null)
+  }
+
+  function handleNoteSaved() {
+    fetchNotes()
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-white">
@@ -92,10 +106,17 @@ export default function Home() {
                 onPin={handlePin}
                 onArchive={handleArchive}
                 onDelete={handleDelete}
+                onClick={handleNoteClick}
               />
             ))}
           </div>
         )}
+
+        <EditNoteModal
+          note={editingNote}
+          onClose={handleModalClose}
+          onSave={handleNoteSaved}
+        />
       </main>
     </div>
   )
