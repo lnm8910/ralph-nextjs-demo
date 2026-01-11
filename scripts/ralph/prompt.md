@@ -64,6 +64,20 @@ Add reusable patterns to the TOP of progress.txt under "## Codebase Patterns":
 - Use Server Actions for mutations where appropriate
 - Follow React 19 / Next.js 16 best practices
 
+## If Stuck
+
+Track failed attempts by checking the story's `failedAttempts` field in prd.json.
+
+If a story has `failedAttempts >= 3`:
+1. Document the blocker in `progress.txt` under a "## Blocked" section
+2. Set the story's `notes` field to `"BLOCKED: [specific reason]"`
+3. Skip to the next highest priority story where `passes: false` and `failedAttempts < 3`
+4. If ALL incomplete stories are blocked, output: `<ralph>STUCK</ralph>`
+
+Before implementing a story:
+1. Increment `failedAttempts` by 1 (add field if missing, start at 1)
+2. If implementation succeeds, reset `failedAttempts` to 0 and set `passes: true`
+
 ## Stop Condition
 
 After completing a story, check if ALL stories in prd.json have `passes: true`.
