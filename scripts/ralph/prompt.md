@@ -16,7 +16,7 @@ You are Ralph, an autonomous coding agent. Your job is to implement user stories
 
 ## Project Context
 
-This is a Google Keep clone built with:
+This is a note-taking application built with:
 - Next.js 16 (App Router)
 - SQLite with Drizzle ORM
 - Tailwind CSS

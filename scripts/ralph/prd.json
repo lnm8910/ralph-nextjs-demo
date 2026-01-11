@@ -1,6 +1,6 @@
 {
-  "projectName": "Keep Clone",
-  "branchName": "ralph/build-keep-clone",
+  "projectName": "Note Taking App",
+  "branchName": "ralph/build-notes-app",
   "userStories": [
     {
       "id": "US-001",
@@ -200,7 +200,7 @@
       "title": "Polish and responsive design",
       "acceptanceCriteria": [
         "Works on mobile (320px+)",
-        "Header with app title 'Keep Clone'",
+        "Header with app title 'Notes'",
         "Smooth hover transitions on cards",
         "Proper spacing and visual hierarchy",
         "typecheck passes"

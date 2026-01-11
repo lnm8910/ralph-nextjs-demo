@@ -1,6 +1,6 @@
 # Ralph Next.js Demo
 
-A Google Keep clone built autonomously by **Ralph** - an AI coding loop for Claude Code.
+A note-taking application built autonomously by **Ralph** - an AI coding loop for Claude Code.
 
 ## What is Ralph?
 
