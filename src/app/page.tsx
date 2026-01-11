@@ -30,15 +30,38 @@ export default function Home() {
   }
 
   async function handlePin(note: Note) {
+    const newPinnedState = !note.pinned
+
+    // Optimistic update: immediately update the UI
+    setNotes((prevNotes) => {
+      const updatedNotes = prevNotes.map((n) =>
+        n.id === note.id ? { ...n, pinned: newPinnedState } : n
+      )
+      // Re-sort: pinned notes first, then by createdAt desc
+      return updatedNotes.sort((a, b) => {
+        if (a.pinned !== b.pinned) {
+          return a.pinned ? -1 : 1
+        }
+        const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0
+        const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
+        return bTime - aTime
+      })
+    })
+
     try {
-      await fetch(`/api/notes/${note.id}`, {
+      const response = await fetch(`/api/notes/${note.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pinned: !note.pinned }),
+        body: JSON.stringify({ pinned: newPinnedState }),
       })
-      fetchNotes()
+      if (!response.ok) {
+        // Revert on failure
+        fetchNotes()
+      }
     } catch (error) {
       console.error('Failed to pin note:', error)
+      // Revert on error
+      fetchNotes()
     }
   }
 
