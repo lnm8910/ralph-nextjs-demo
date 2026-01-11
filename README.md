@@ -4,36 +4,32 @@ A note-taking application built autonomously by **Ralph** - an AI coding loop fo
 
 ## What is Ralph?
 
-Ralph is a multi-agent system that runs Claude Code (Opus) repeatedly until all tasks are complete. It uses three specialized agents:
+Ralph is an autonomous coding loop that runs Claude Code repeatedly until all tasks are complete. It reads a PRD (Product Requirements Document) with user stories, implements them one by one, and commits each completed feature.
 
-### Agents
-
-| Agent | Role | Responsibilities |
-|-------|------|------------------|
-| 📋 **Product Manager** | Manages backlog | Writes stories, sets priorities, marks stories "ready" |
-| 💻 **Developer** | Implements features | Writes code, runs typecheck, commits changes |
-| 🧪 **Tester** | Verifies quality | Tests acceptance criteria, marks stories pass/fail |
-
-### Workflow
-
-Each cycle runs all three agents in sequence:
+### How It Works
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│  Product Manager │ → │    Developer    │ → │     Tester      │
-│  (prepare work)  │    │  (implement)    │    │   (verify)      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         ↑                                              │
-         └──────────────── (next cycle) ────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                        Ralph Loop                               │
+├─────────────────────────────────────────────────────────────────┤
+│  1. Read prd.json → Find highest priority story (passes: false) │
+│  2. Read progress.txt → Understand codebase patterns            │
+│  3. Implement the story                                         │
+│  4. Run typecheck + tests                                       │
+│  5. Commit changes                                              │
+│  6. Mark story as passes: true                                  │
+│  7. Log learnings to progress.txt                               │
+│  8. Repeat until all stories pass                               │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### Story Status Flow
+### Stuck Handling
 
-```
-pending → ready → in_progress → testing → done
-              ↑                      |
-              └──── (if fails) ──────┘
-```
+Ralph tracks `failedAttempts` per story. After 3 failures:
+- Documents the blocker
+- Marks story as BLOCKED
+- Moves to next story
+- Exits with `<ralph>STUCK</ralph>` if all stories blocked
 
 ## Tech Stack
 
@@ -41,6 +37,34 @@ pending → ready → in_progress → testing → done
 - **Database:** SQLite + Drizzle ORM
 - **Styling:** Tailwind CSS
 - **Testing:** Vitest + Playwright
+
+## Features Built by Ralph
+
+Ralph autonomously implemented **20 user stories** in 20 iterations:
+
+### Core Features (US-001 to US-015)
+1. Database schema for notes
+2. API: Create note
+3. API: List notes
+4. API: Update note
+5. API: Delete note
+6. Note card component with colors
+7. Notes grid layout (responsive)
+8. Create note form (expandable)
+9. Edit note modal
+10. Pin/unpin functionality
+11. Archive functionality
+12. Search notes (debounced)
+13. Delete with confirmation
+14. E2E test: Create and view note
+15. Polish and responsive design
+
+### Checklist Feature (US-016 to US-020)
+16. Database schema for checklist items
+17. API support for checklist notes
+18. Checklist display in NoteCard
+19. Create checklist note (toggle mode)
+20. Edit checklist in modal
 
 ## Getting Started
 
@@ -66,6 +90,12 @@ chmod +x scripts/ralph/ralph.sh
 ./scripts/ralph/ralph.sh 25
 ```
 
+Ralph will:
+- Pick stories in priority order
+- Implement and test each one
+- Commit with `feat: [ID] - [Title]`
+- Exit when all stories pass (or get stuck)
+
 ## Scripts
 
 ```bash
@@ -82,37 +112,18 @@ npm run db:migrate   # Apply migrations
 
 ```
 ├── src/
-│   ├── app/           # Next.js App Router
-│   ├── db/            # Database schema and connection
-│   └── test/          # Test setup
+│   ├── app/           # Next.js App Router (pages, API routes)
+│   ├── components/    # React components
+│   └── db/            # Database schema and connection
 ├── e2e/               # Playwright E2E tests
-├── scripts/ralph/     # Ralph automation scripts
-│   ├── ralph.sh       # Main orchestration loop
-│   ├── agents/        # Specialized agent prompts
-│   │   ├── developer.md
-│   │   ├── tester.md
-│   │   └── product-manager.md
-│   ├── prd.json       # Task list with status
-│   └── progress.txt   # Learnings log
+├── scripts/ralph/     # Ralph automation
+│   ├── ralph.sh       # Main loop script
+│   ├── prompt.md      # Agent instructions
+│   ├── prd.json       # User stories with status
+│   └── progress.txt   # Accumulated learnings
+├── drizzle/           # Database migrations
 └── data/              # SQLite database (gitignored)
 ```
-
-## User Stories
-
-See `scripts/ralph/prd.json` for the full list of features Ralph will implement:
-
-1. Database schema for notes
-2. CRUD APIs (create, list, update, delete)
-3. Note card component with colors
-4. Notes grid layout
-5. Create note form
-6. Edit note modal
-7. Pin/unpin functionality
-8. Archive functionality
-9. Search notes
-10. Delete confirmation
-11. E2E tests
-12. Polish and responsive design
 
 ## License
 
