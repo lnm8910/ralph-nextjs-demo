@@ -1,0 +1,29 @@
+# Ralph Progress Log
+
+Started: 2025-01-11
+
+## Codebase Patterns
+- Next.js 16 with App Router (src/app directory)
+- Drizzle ORM for SQLite (schema in src/db/schema.ts)
+- API routes in src/app/api/
+- Tailwind CSS for styling
+- Vitest for unit tests (src/**/*.test.ts)
+- Playwright for E2E tests (e2e/*.spec.ts)
+
+## Key Files
+- src/db/schema.ts - Database schema
+- src/db/index.ts - Database connection
+- src/app/page.tsx - Main page
+- src/app/layout.tsx - Root layout
+- package.json - Scripts: typecheck, test, test:e2e
+
+## Color Map (for NoteCard)
+- yellow: bg-amber-100 (#fef3c7)
+- green: bg-emerald-100 (#d1fae5)
+- blue: bg-blue-100 (#dbeafe)
+- pink: bg-pink-100 (#fce7f3)
+- purple: bg-violet-100 (#ede9fe)
+- gray: bg-gray-100 (#f3f4f6)
+
+---
+<!-- Ralph will append progress entries below this line -->

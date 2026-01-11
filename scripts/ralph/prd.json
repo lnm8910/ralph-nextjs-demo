@@ -1,0 +1,213 @@
+{
+  "projectName": "Keep Clone",
+  "branchName": "ralph/build-keep-clone",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Database schema for notes",
+      "acceptanceCriteria": [
+        "Notes table with: id, title, content, color, pinned, archived, createdAt, updatedAt",
+        "Drizzle schema defined in src/db/schema.ts",
+        "Database connection works",
+        "typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Colors: yellow, green, blue, pink, purple, gray. Use text for color field."
+    },
+    {
+      "id": "US-002",
+      "title": "API: Create note",
+      "acceptanceCriteria": [
+        "POST /api/notes creates a note",
+        "Returns created note with id",
+        "Validates that title is not empty",
+        "Default color is 'yellow'",
+        "typecheck passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": "Use Next.js Route Handlers"
+    },
+    {
+      "id": "US-003",
+      "title": "API: List notes",
+      "acceptanceCriteria": [
+        "GET /api/notes returns all non-archived notes",
+        "Pinned notes come first",
+        "Then sorted by createdAt desc",
+        "typecheck passes"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "API: Update note",
+      "acceptanceCriteria": [
+        "PUT /api/notes/[id] updates a note",
+        "Can update title, content, color, pinned, archived",
+        "Updates updatedAt timestamp",
+        "Returns updated note",
+        "typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "API: Delete note",
+      "acceptanceCriteria": [
+        "DELETE /api/notes/[id] removes a note",
+        "Returns 204 on success",
+        "Returns 404 if not found",
+        "typecheck passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Note card component",
+      "acceptanceCriteria": [
+        "NoteCard component displays title and content",
+        "Shows correct background color based on note.color",
+        "Pin icon visible if note is pinned",
+        "Has buttons for pin, archive, delete (visible on hover)",
+        "typecheck passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "Use Tailwind for styling. Colors map: yellow=#fef3c7, green=#d1fae5, blue=#dbeafe, pink=#fce7f3, purple=#ede9fe, gray=#f3f4f6"
+    },
+    {
+      "id": "US-007",
+      "title": "Notes grid layout",
+      "acceptanceCriteria": [
+        "Main page shows grid of NoteCard components",
+        "Responsive: 1 col mobile, 2 col tablet (md:), 3 col desktop (lg:)",
+        "Fetches notes from API on load",
+        "Shows empty state when no notes",
+        "typecheck passes"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Use CSS grid with gap-4"
+    },
+    {
+      "id": "US-008",
+      "title": "Create note form",
+      "acceptanceCriteria": [
+        "Input area at top of page (like Google Keep)",
+        "Expands on click to show title, content, and color picker",
+        "Color picker shows 6 color options",
+        "Submit creates note via API and refreshes list",
+        "Collapses after submit",
+        "typecheck passes"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Start collapsed showing just 'Take a note...'"
+    },
+    {
+      "id": "US-009",
+      "title": "Edit note modal",
+      "acceptanceCriteria": [
+        "Click on NoteCard opens edit modal",
+        "Modal shows title, content, color picker",
+        "Save button updates note via API",
+        "Close button or click outside dismisses modal",
+        "typecheck passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Use dialog element or portal for modal"
+    },
+    {
+      "id": "US-010",
+      "title": "Pin/unpin functionality",
+      "acceptanceCriteria": [
+        "Pin button on NoteCard toggles pinned state",
+        "Pinned notes appear at top of grid",
+        "Visual indicator (filled vs outline pin icon)",
+        "Optimistic update for better UX",
+        "typecheck passes"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "Archive functionality",
+      "acceptanceCriteria": [
+        "Archive button on NoteCard moves note to archive",
+        "Archived notes hidden from main view",
+        "Add /archive route showing archived notes",
+        "Archive page has unarchive button",
+        "typecheck passes"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "Search notes",
+      "acceptanceCriteria": [
+        "Search input in header area",
+        "Filters notes by title and content (case insensitive)",
+        "Real-time filtering as user types (debounced)",
+        "Shows 'No matching notes' when search has no results",
+        "typecheck passes"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": "Client-side filtering is fine for this demo"
+    },
+    {
+      "id": "US-013",
+      "title": "Delete with confirmation",
+      "acceptanceCriteria": [
+        "Delete button shows confirmation dialog",
+        "Confirm deletes note via API",
+        "Cancel dismisses dialog",
+        "typecheck passes"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": "Can use window.confirm or custom modal"
+    },
+    {
+      "id": "US-014",
+      "title": "E2E test: Create and view note",
+      "acceptanceCriteria": [
+        "Playwright test navigates to home",
+        "Creates a note with title and content",
+        "Verifies note appears in grid",
+        "Test passes: npm run test:e2e",
+        "typecheck passes"
+      ],
+      "priority": 14,
+      "passes": false,
+      "notes": "Put test in e2e/notes.spec.ts"
+    },
+    {
+      "id": "US-015",
+      "title": "Polish and responsive design",
+      "acceptanceCriteria": [
+        "Works on mobile (320px+)",
+        "Header with app title 'Keep Clone'",
+        "Smooth hover transitions on cards",
+        "Proper spacing and visual hierarchy",
+        "typecheck passes"
+      ],
+      "priority": 15,
+      "passes": false,
+      "notes": "Final polish pass"
+    }
+  ]
+}
