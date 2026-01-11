@@ -24,7 +24,7 @@ export function NoteCard({ note, onPin, onArchive, onDelete, onClick }: NoteCard
 
   return (
     <div
-      className={`group relative rounded-lg p-4 shadow-sm border border-gray-200 cursor-pointer transition-shadow hover:shadow-md ${bgColor}`}
+      className={`group relative rounded-lg p-3 sm:p-4 shadow-sm border border-gray-200/80 cursor-pointer transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-[1.02] ${bgColor}`}
       onClick={() => onClick?.(note)}
     >
       {/* Pin indicator */}
@@ -45,13 +45,13 @@ export function NoteCard({ note, onPin, onArchive, onDelete, onClick }: NoteCard
       )}
 
       {/* Action buttons - visible on hover */}
-      <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <button
           onClick={(e) => {
             e.stopPropagation()
             onPin?.(note)
           }}
-          className="p-1.5 rounded-full hover:bg-black/10 transition-colors"
+          className="p-1.5 rounded-full hover:bg-black/10 transition-colors duration-150"
           title={note.pinned ? 'Unpin' : 'Pin'}
           aria-label={note.pinned ? 'Unpin note' : 'Pin note'}
         >
@@ -66,7 +66,7 @@ export function NoteCard({ note, onPin, onArchive, onDelete, onClick }: NoteCard
             e.stopPropagation()
             onArchive?.(note)
           }}
-          className="p-1.5 rounded-full hover:bg-black/10 transition-colors"
+          className="p-1.5 rounded-full hover:bg-black/10 transition-colors duration-150"
           title="Archive"
           aria-label="Archive note"
         >
@@ -77,7 +77,7 @@ export function NoteCard({ note, onPin, onArchive, onDelete, onClick }: NoteCard
             e.stopPropagation()
             onDelete?.(note)
           }}
-          className="p-1.5 rounded-full hover:bg-black/10 transition-colors"
+          className="p-1.5 rounded-full hover:bg-black/10 transition-colors duration-150"
           title="Delete"
           aria-label="Delete note"
         >

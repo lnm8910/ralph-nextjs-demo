@@ -161,8 +161,8 @@
         "typecheck passes"
       ],
       "priority": 11,
-      "passes": false,
-      "failedAttempts": 1,
+      "passes": true,
+      "failedAttempts": 0,
       "notes": ""
     },
     {
@@ -176,7 +176,7 @@
         "typecheck passes"
       ],
       "priority": 12,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": "Client-side filtering is fine for this demo"
     },
@@ -190,7 +190,7 @@
         "typecheck passes"
       ],
       "priority": 13,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": "Can use window.confirm or custom modal"
     },
@@ -205,7 +205,7 @@
         "typecheck passes"
       ],
       "priority": 14,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": "Put test in e2e/notes.spec.ts"
     },
@@ -221,7 +221,7 @@
       ],
       "priority": 15,
       "passes": false,
-      "failedAttempts": 0,
+      "failedAttempts": 1,
       "notes": "Final polish pass"
     }
   ]

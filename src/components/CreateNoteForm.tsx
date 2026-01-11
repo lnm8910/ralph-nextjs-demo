@@ -68,10 +68,10 @@ export function CreateNoteForm({ onNoteCreated }: CreateNoteFormProps) {
   if (!expanded) {
     return (
       <div
-        className="max-w-xl mx-auto mb-8"
+        className="max-w-xl mx-auto mb-6 sm:mb-8"
         onClick={() => setExpanded(true)}
       >
-        <div className="rounded-lg shadow border border-gray-200 p-4 cursor-text hover:shadow-md transition-shadow">
+        <div className="rounded-lg shadow border border-gray-200 p-3 sm:p-4 cursor-text bg-white hover:shadow-md transition-shadow duration-200">
           <span className="text-gray-500">Take a note...</span>
         </div>
       </div>
@@ -79,12 +79,12 @@ export function CreateNoteForm({ onNoteCreated }: CreateNoteFormProps) {
   }
 
   return (
-    <div className="max-w-xl mx-auto mb-8">
+    <div className="max-w-xl mx-auto mb-6 sm:mb-8">
       <form
         onSubmit={handleSubmit}
-        className={`rounded-lg shadow-md border border-gray-200 overflow-hidden ${selectedColorClass}`}
+        className={`rounded-lg shadow-md border border-gray-200 overflow-hidden transition-colors duration-200 ${selectedColorClass}`}
       >
-        <div className="p-4">
+        <div className="p-3 sm:p-4">
           <input
             type="text"
             placeholder="Title"
@@ -102,7 +102,7 @@ export function CreateNoteForm({ onNoteCreated }: CreateNoteFormProps) {
           />
         </div>
 
-        <div className="flex items-center justify-between px-4 py-2 border-t border-gray-200/50">
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2 border-t border-gray-200/50">
           {/* Color picker */}
           <div className="flex gap-1">
             {colors.map((c) => (
@@ -110,7 +110,7 @@ export function CreateNoteForm({ onNoteCreated }: CreateNoteFormProps) {
                 key={c.name}
                 type="button"
                 onClick={() => setColor(c.name)}
-                className={`w-6 h-6 rounded-full ${c.class} border border-gray-300 transition-all ${
+                className={`w-6 h-6 rounded-full ${c.class} border border-gray-300 transition-all duration-150 ${
                   color === c.name ? `ring-2 ${c.ring}` : ''
                 }`}
                 title={c.name}
@@ -124,14 +124,14 @@ export function CreateNoteForm({ onNoteCreated }: CreateNoteFormProps) {
             <button
               type="button"
               onClick={handleClose}
-              className="px-4 py-1.5 text-sm text-gray-600 hover:bg-black/5 rounded transition-colors"
+              className="px-3 sm:px-4 py-1.5 text-sm text-gray-600 hover:bg-black/5 rounded transition-colors duration-150"
             >
               Close
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors disabled:opacity-50"
+              className="px-3 sm:px-4 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors duration-150 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : 'Save'}
             </button>

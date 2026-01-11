@@ -77,19 +77,19 @@ export function EditNoteModal({ note, onClose, onSave }: EditNoteModalProps) {
       ref={dialogRef}
       onClick={handleBackdropClick}
       onClose={onClose}
-      className="backdrop:bg-black/50 bg-transparent p-0 m-auto rounded-lg max-w-xl w-full"
+      className="backdrop:bg-black/50 bg-transparent p-4 m-auto rounded-lg max-w-xl w-[calc(100%-2rem)] sm:w-full"
     >
       <form
         onSubmit={handleSubmit}
-        className={`rounded-lg shadow-xl overflow-hidden ${selectedColorClass}`}
+        className={`rounded-lg shadow-xl overflow-hidden transition-colors duration-200 ${selectedColorClass}`}
       >
-        <div className="p-4">
+        <div className="p-3 sm:p-4">
           <input
             type="text"
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-transparent border-none outline-none font-medium text-gray-900 placeholder-gray-500 mb-2 text-lg"
+            className="w-full bg-transparent border-none outline-none font-medium text-gray-900 placeholder-gray-500 mb-2 text-base sm:text-lg"
           />
           <textarea
             placeholder="Note content..."
@@ -100,7 +100,7 @@ export function EditNoteModal({ note, onClose, onSave }: EditNoteModalProps) {
           />
         </div>
 
-        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200/50">
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 border-t border-gray-200/50">
           {/* Color picker */}
           <div className="flex gap-1">
             {colors.map((c) => (
@@ -108,7 +108,7 @@ export function EditNoteModal({ note, onClose, onSave }: EditNoteModalProps) {
                 key={c.name}
                 type="button"
                 onClick={() => setColor(c.name)}
-                className={`w-7 h-7 rounded-full ${c.class} border border-gray-300 transition-all ${
+                className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full ${c.class} border border-gray-300 transition-all duration-150 ${
                   color === c.name ? `ring-2 ${c.ring}` : ''
                 }`}
                 title={c.name}
@@ -122,14 +122,14 @@ export function EditNoteModal({ note, onClose, onSave }: EditNoteModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-1.5 text-sm text-gray-600 hover:bg-black/5 rounded transition-colors"
+              className="px-3 sm:px-4 py-1.5 text-sm text-gray-600 hover:bg-black/5 rounded transition-colors duration-150"
             >
               Close
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors disabled:opacity-50"
+              className="px-3 sm:px-4 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors duration-150 disabled:opacity-50"
             >
               {submitting ? 'Saving...' : 'Save'}
             </button>

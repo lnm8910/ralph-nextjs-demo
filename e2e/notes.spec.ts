@@ -28,8 +28,8 @@ test.describe('Notes App', () => {
     // Wait for the form to collapse (the "Take a note..." placeholder should reappear)
     await expect(page.locator('text=Take a note...')).toBeVisible()
 
-    // Verify the note appears in the grid
-    await expect(page.locator('h3:has-text("My Test Note")')).toBeVisible()
-    await expect(page.locator('text=This is the content of my test note')).toBeVisible()
+    // Verify the note appears in the grid (use first() in case there are duplicates from previous runs)
+    await expect(page.locator('h3:has-text("My Test Note")').first()).toBeVisible()
+    await expect(page.locator('text=This is the content of my test note').first()).toBeVisible()
   })
 })

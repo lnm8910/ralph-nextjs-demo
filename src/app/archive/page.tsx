@@ -66,8 +66,20 @@ export default function ArchivePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
-        <main className="max-w-5xl mx-auto px-4 py-8">
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4">
+            <Link
+              href="/"
+              className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors"
+              aria-label="Back to notes"
+            >
+              <BackArrowIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" />
+            </Link>
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Archive</h1>
+          </div>
+        </header>
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <p className="text-gray-500 text-center">Loading archived notes...</p>
         </main>
       </div>
@@ -75,18 +87,20 @@ export default function ArchivePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <main className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex items-center gap-4 mb-8">
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4">
           <Link
             href="/"
-            className="text-gray-500 hover:text-gray-700 transition-colors"
+            className="p-2 -ml-2 rounded-full hover:bg-gray-100 transition-colors"
             aria-label="Back to notes"
           >
-            <BackArrowIcon className="h-6 w-6" />
+            <BackArrowIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" />
           </Link>
-          <h1 className="text-2xl font-semibold text-gray-900">Archive</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Archive</h1>
         </div>
+      </header>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
         {notes.length === 0 ? (
           <div className="text-center py-16">
@@ -121,7 +135,7 @@ function ArchivedNoteCard({ note, onUnarchive, onDelete }: ArchivedNoteCardProps
 
   return (
     <div
-      className={`group relative rounded-lg p-4 shadow-sm border border-gray-200 ${bgColor}`}
+      className={`group relative rounded-lg p-3 sm:p-4 shadow-sm border border-gray-200/80 transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-[1.02] ${bgColor}`}
     >
       {/* Title */}
       {note.title && (
@@ -134,10 +148,10 @@ function ArchivedNoteCard({ note, onUnarchive, onDelete }: ArchivedNoteCardProps
       )}
 
       {/* Action buttons - visible on hover */}
-      <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <button
           onClick={() => onUnarchive(note)}
-          className="p-1.5 rounded-full hover:bg-black/10 transition-colors"
+          className="p-1.5 rounded-full hover:bg-black/10 transition-colors duration-150"
           title="Unarchive"
           aria-label="Unarchive note"
         >
@@ -145,7 +159,7 @@ function ArchivedNoteCard({ note, onUnarchive, onDelete }: ArchivedNoteCardProps
         </button>
         <button
           onClick={() => onDelete(note)}
-          className="p-1.5 rounded-full hover:bg-black/10 transition-colors"
+          className="p-1.5 rounded-full hover:bg-black/10 transition-colors duration-150"
           title="Delete"
           aria-label="Delete note"
         >

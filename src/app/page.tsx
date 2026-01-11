@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useMemo } from 'react'
+import Link from 'next/link'
 import { NoteCard } from '@/components/NoteCard'
 import { CreateNoteForm } from '@/components/CreateNoteForm'
 import { EditNoteModal } from '@/components/EditNoteModal'
@@ -138,8 +139,21 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
-        <main className="max-w-5xl mx-auto px-4 py-8">
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Notes</h1>
+            <Link
+              href="/archive"
+              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              title="Archive"
+              aria-label="View archived notes"
+            >
+              <ArchiveIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" />
+            </Link>
+          </div>
+        </header>
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <p className="text-gray-500 text-center">Loading notes...</p>
         </main>
       </div>
@@ -149,8 +163,21 @@ export default function Home() {
   const hasSearchQuery = debouncedSearchQuery.trim().length > 0
 
   return (
-    <div className="min-h-screen bg-white">
-      <main className="max-w-5xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Notes</h1>
+          <Link
+            href="/archive"
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            title="Archive"
+            aria-label="View archived notes"
+          >
+            <ArchiveIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" />
+          </Link>
+        </div>
+      </header>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="mb-6">
           <div className="relative">
             <svg
@@ -171,7 +198,7 @@ export default function Home() {
               placeholder="Search notes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-shadow"
             />
           </div>
         </div>
@@ -209,5 +236,13 @@ export default function Home() {
         />
       </main>
     </div>
+  )
+}
+
+function ArchiveIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M21 8v13H3V8M1 3h22v5H1V3zM10 12h4" />
+    </svg>
   )
 }
