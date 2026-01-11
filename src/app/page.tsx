@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { NoteCard } from '@/components/NoteCard'
+import { CreateNoteForm } from '@/components/CreateNoteForm'
 import type { Note } from '@/db/schema'
 
 export default function Home() {
@@ -76,6 +77,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <main className="max-w-5xl mx-auto px-4 py-8">
+        <CreateNoteForm onNoteCreated={fetchNotes} />
         {notes.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-gray-500 text-lg">No notes yet</p>
