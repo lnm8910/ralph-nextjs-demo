@@ -2,6 +2,21 @@
 
 Started: 2025-01-11
 
+## Multi-Agent System
+
+This project uses three specialized agents:
+- **Product Manager**: Manages backlog, writes stories, sets priorities
+- **Developer**: Implements stories, writes code, runs typecheck
+- **Tester**: Verifies acceptance criteria, marks stories as passed/failed
+
+## Story Status Flow
+
+```
+pending → ready → in_progress → testing → done
+              ↑                      |
+              └──── (if fails) ──────┘
+```
+
 ## Codebase Patterns
 - Next.js 16 with App Router (src/app directory)
 - Drizzle ORM for SQLite (schema in src/db/schema.ts)
@@ -26,4 +41,4 @@ Started: 2025-01-11
 - gray: bg-gray-100 (#f3f4f6)
 
 ---
-<!-- Ralph will append progress entries below this line -->
+<!-- Agents will append progress entries below this line -->

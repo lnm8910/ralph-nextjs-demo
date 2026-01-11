@@ -12,6 +12,7 @@
         "typecheck passes"
       ],
       "priority": 1,
+      "status": "pending",
       "passes": false,
       "notes": "Colors: yellow, green, blue, pink, purple, gray. Use text for color field."
     },
@@ -26,6 +27,7 @@
         "typecheck passes"
       ],
       "priority": 2,
+      "status": "pending",
       "passes": false,
       "notes": "Use Next.js Route Handlers"
     },
@@ -39,6 +41,7 @@
         "typecheck passes"
       ],
       "priority": 3,
+      "status": "pending",
       "passes": false,
       "notes": ""
     },
@@ -53,6 +56,7 @@
         "typecheck passes"
       ],
       "priority": 4,
+      "status": "pending",
       "passes": false,
       "notes": ""
     },
@@ -66,6 +70,7 @@
         "typecheck passes"
       ],
       "priority": 5,
+      "status": "pending",
       "passes": false,
       "notes": ""
     },
@@ -80,6 +85,7 @@
         "typecheck passes"
       ],
       "priority": 6,
+      "status": "pending",
       "passes": false,
       "notes": "Use Tailwind for styling. Colors map: yellow=#fef3c7, green=#d1fae5, blue=#dbeafe, pink=#fce7f3, purple=#ede9fe, gray=#f3f4f6"
     },
@@ -94,6 +100,7 @@
         "typecheck passes"
       ],
       "priority": 7,
+      "status": "pending",
       "passes": false,
       "notes": "Use CSS grid with gap-4"
     },
@@ -101,7 +108,7 @@
       "id": "US-008",
       "title": "Create note form",
       "acceptanceCriteria": [
-        "Input area at top of page (like Google Keep)",
+        "Input area at top of page",
         "Expands on click to show title, content, and color picker",
         "Color picker shows 6 color options",
         "Submit creates note via API and refreshes list",
@@ -109,6 +116,7 @@
         "typecheck passes"
       ],
       "priority": 8,
+      "status": "pending",
       "passes": false,
       "notes": "Start collapsed showing just 'Take a note...'"
     },
@@ -123,6 +131,7 @@
         "typecheck passes"
       ],
       "priority": 9,
+      "status": "pending",
       "passes": false,
       "notes": "Use dialog element or portal for modal"
     },
@@ -137,6 +146,7 @@
         "typecheck passes"
       ],
       "priority": 10,
+      "status": "pending",
       "passes": false,
       "notes": ""
     },
@@ -151,6 +161,7 @@
         "typecheck passes"
       ],
       "priority": 11,
+      "status": "pending",
       "passes": false,
       "notes": ""
     },
@@ -165,6 +176,7 @@
         "typecheck passes"
       ],
       "priority": 12,
+      "status": "pending",
       "passes": false,
       "notes": "Client-side filtering is fine for this demo"
     },
@@ -178,6 +190,7 @@
         "typecheck passes"
       ],
       "priority": 13,
+      "status": "pending",
       "passes": false,
       "notes": "Can use window.confirm or custom modal"
     },
@@ -192,6 +205,7 @@
         "typecheck passes"
       ],
       "priority": 14,
+      "status": "pending",
       "passes": false,
       "notes": "Put test in e2e/notes.spec.ts"
     },
@@ -206,6 +220,7 @@
         "typecheck passes"
       ],
       "priority": 15,
+      "status": "pending",
       "passes": false,
       "notes": "Final polish pass"
     }

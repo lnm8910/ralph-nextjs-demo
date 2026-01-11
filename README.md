@@ -4,16 +4,36 @@ A note-taking application built autonomously by **Ralph** - an AI coding loop fo
 
 ## What is Ralph?
 
-Ralph is a bash loop that runs Claude Code repeatedly until all tasks are complete. Each iteration:
+Ralph is a multi-agent system that runs Claude Code (Opus) repeatedly until all tasks are complete. It uses three specialized agents:
 
-1. Claude reads the task list (`prd.json`)
-2. Picks the highest priority incomplete story
-3. Implements it
-4. Runs typecheck + tests
-5. Commits if passing
-6. Marks story done
-7. Logs learnings
-8. Loop repeats
+### Agents
+
+| Agent | Role | Responsibilities |
+|-------|------|------------------|
+| 📋 **Product Manager** | Manages backlog | Writes stories, sets priorities, marks stories "ready" |
+| 💻 **Developer** | Implements features | Writes code, runs typecheck, commits changes |
+| 🧪 **Tester** | Verifies quality | Tests acceptance criteria, marks stories pass/fail |
+
+### Workflow
+
+Each cycle runs all three agents in sequence:
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│  Product Manager │ → │    Developer    │ → │     Tester      │
+│  (prepare work)  │    │  (implement)    │    │   (verify)      │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         ↑                                              │
+         └──────────────── (next cycle) ────────────────┘
+```
+
+### Story Status Flow
+
+```
+pending → ready → in_progress → testing → done
+              ↑                      |
+              └──── (if fails) ──────┘
+```
 
 ## Tech Stack
 
@@ -67,9 +87,12 @@ npm run db:migrate   # Apply migrations
 │   └── test/          # Test setup
 ├── e2e/               # Playwright E2E tests
 ├── scripts/ralph/     # Ralph automation scripts
-│   ├── ralph.sh       # Main loop script
-│   ├── prompt.md      # Agent instructions
-│   ├── prd.json       # Task list
+│   ├── ralph.sh       # Main orchestration loop
+│   ├── agents/        # Specialized agent prompts
+│   │   ├── developer.md
+│   │   ├── tester.md
+│   │   └── product-manager.md
+│   ├── prd.json       # Task list with status
 │   └── progress.txt   # Learnings log
 └── data/              # SQLite database (gitignored)
 ```
