@@ -220,9 +220,86 @@
         "typecheck passes"
       ],
       "priority": 15,
-      "passes": false,
-      "failedAttempts": 1,
+      "passes": true,
+      "failedAttempts": 0,
       "notes": "Final polish pass"
+    },
+    {
+      "id": "US-016",
+      "title": "Database schema for checklist items",
+      "acceptanceCriteria": [
+        "Add 'isChecklist' boolean field to notes table (default false)",
+        "Add 'checklistItems' text field to notes table (JSON array string)",
+        "ChecklistItem type: { id: string, text: string, checked: boolean }",
+        "Generate and apply Drizzle migration",
+        "typecheck passes"
+      ],
+      "priority": 16,
+      "passes": true,
+      "failedAttempts": 0,
+      "notes": "Store checklist items as JSON string in checklistItems field"
+    },
+    {
+      "id": "US-017",
+      "title": "API support for checklist notes",
+      "acceptanceCriteria": [
+        "POST /api/notes accepts isChecklist and checklistItems",
+        "PUT /api/notes/[id] can update isChecklist and checklistItems",
+        "GET endpoints return isChecklist and parsed checklistItems",
+        "typecheck passes"
+      ],
+      "priority": 17,
+      "passes": true,
+      "failedAttempts": 0,
+      "notes": "Parse JSON when reading, stringify when writing"
+    },
+    {
+      "id": "US-018",
+      "title": "Checklist display in NoteCard",
+      "acceptanceCriteria": [
+        "NoteCard shows checkboxes if note.isChecklist is true",
+        "Each checklist item has checkbox and text",
+        "Checked items have strikethrough text",
+        "Shows up to 5 items with '+ N more' if more exist",
+        "typecheck passes"
+      ],
+      "priority": 18,
+      "passes": false,
+      "failedAttempts": 0,
+      "notes": "Read-only display in card, editing in modal"
+    },
+    {
+      "id": "US-019",
+      "title": "Create checklist note",
+      "acceptanceCriteria": [
+        "Toggle button in create form to switch between text and checklist mode",
+        "Checklist mode shows input for adding items",
+        "Can add multiple items before saving",
+        "Can remove items before saving",
+        "Submit creates note with isChecklist=true and checklistItems",
+        "typecheck passes"
+      ],
+      "priority": 19,
+      "passes": false,
+      "failedAttempts": 0,
+      "notes": "Use a list icon or checkbox icon for toggle"
+    },
+    {
+      "id": "US-020",
+      "title": "Edit checklist in modal",
+      "acceptanceCriteria": [
+        "Edit modal shows checklist interface for checklist notes",
+        "Can toggle checkbox state (checked/unchecked)",
+        "Can add new items",
+        "Can delete items",
+        "Can edit item text inline",
+        "Save persists all changes",
+        "typecheck passes"
+      ],
+      "priority": 20,
+      "passes": false,
+      "failedAttempts": 0,
+      "notes": "Full CRUD for checklist items within the modal"
     }
   ]
 }

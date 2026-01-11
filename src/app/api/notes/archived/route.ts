@@ -1,7 +1,15 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/db'
-import { notes } from '@/db/schema'
+import { notes, Note, ChecklistItem } from '@/db/schema'
 import { desc, eq } from 'drizzle-orm'
+
+// Helper to parse checklistItems JSON string
+function parseChecklistItems(note: Note): Note & { checklistItems: ChecklistItem[] | null } {
+  return {
+    ...note,
+    checklistItems: note.checklistItems ? JSON.parse(note.checklistItems) : null,
+  }
+}
 
 export async function GET() {
   try {
@@ -12,7 +20,10 @@ export async function GET() {
       .where(eq(notes.archived, true))
       .orderBy(desc(notes.createdAt))
 
-    return NextResponse.json(result)
+    // Parse checklistItems JSON for each note
+    const notesWithParsedChecklists = result.map(parseChecklistItems)
+
+    return NextResponse.json(notesWithParsedChecklists)
   } catch (error) {
     console.error('Error fetching archived notes:', error)
     return NextResponse.json(

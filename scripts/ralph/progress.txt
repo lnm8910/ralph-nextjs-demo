@@ -99,3 +99,118 @@ Started: 2025-01-11
   - Handler functions for pin, archive, delete that call API and refetch notes
   - Empty state shows friendly message when no notes exist
 ---
+
+## 2026-01-11 - US-008
+- Implemented CreateNoteForm component with expand/collapse behavior
+- Files changed: src/components/CreateNoteForm.tsx (new file), src/app/page.tsx
+- **Learnings:**
+  - Use autoFocus on the title input when form expands for better UX
+  - Color picker buttons use ring-2 with color-specific ring class for selection indicator
+  - Pass onNoteCreated callback to parent to refresh the notes list after creation
+  - Empty form (no title and no content) closes without API call
+  - Form background color changes dynamically based on selected color
+---
+
+## 2026-01-11 - US-009
+- Implemented EditNoteModal component using native dialog element
+- Files changed: src/components/EditNoteModal.tsx (new file), src/app/page.tsx
+- **Learnings:**
+  - Native `<dialog>` element works well for modals with `showModal()` and `close()` methods
+  - Use `useRef<HTMLDialogElement>` to get typed reference to dialog
+  - Backdrop click detection: compare `e.target === dialogRef.current` in onClick handler
+  - Add `onClose` handler to dialog for Escape key support (native behavior)
+  - Style dialog with `backdrop:bg-black/50` for semi-transparent backdrop
+  - Use `bg-transparent` on dialog to show custom styled content
+  - Manage modal state in parent with `editingNote: Note | null` pattern
+---
+
+## 2026-01-11 - US-010
+- Implemented optimistic update for pin/unpin functionality
+- Files changed: src/app/page.tsx
+- **Learnings:**
+  - Optimistic updates: immediately update UI state, then revert on API failure
+  - Use functional setState `setNotes((prev) => ...)` to avoid stale state issues
+  - Re-sort notes after pin toggle to maintain pinned-first order
+  - Handle nullable timestamp fields: `a.createdAt ? new Date(a.createdAt).getTime() : 0`
+  - Check `response.ok` to detect API errors even without thrown exceptions
+---
+
+## 2026-01-11 - US-011
+- Implemented archive functionality with dedicated archive page
+- Files changed: src/app/api/notes/archived/route.ts (new file), src/app/archive/page.tsx (new file)
+- **Learnings:**
+  - Archive button already existed on NoteCard, just needed to create the archive view
+  - Created separate API endpoint GET /api/notes/archived for fetching archived notes only
+  - Archive page uses similar pattern to main page but with ArchivedNoteCard component
+  - Unarchive uses the same PUT /api/notes/[id] endpoint with { archived: false }
+  - Added back navigation link to return to main notes view
+---
+
+## 2026-01-11 - US-012
+- Implemented search functionality with debounced filtering
+- Files changed: src/app/page.tsx
+- **Learnings:**
+  - Custom useDebounce hook for debouncing search input (300ms delay)
+  - useMemo for filtering notes based on debounced search query
+  - Case-insensitive search by converting both query and note fields to lowercase
+  - Filter by both title and content: `note.title.toLowerCase().includes(query) || (note.content && note.content.toLowerCase().includes(query))`
+  - Show different empty states based on whether search has results vs no notes exist
+  - Search icon uses SVG with proper positioning using absolute/relative and translate
+---
+
+## 2026-01-11 - US-013
+- Implemented delete confirmation dialog on both main page and archive page
+- Files changed: src/app/page.tsx, src/app/archive/page.tsx
+- **Learnings:**
+  - `window.confirm()` is the simplest way to add confirmation dialogs
+  - Return early from handler if user cancels to prevent deletion
+  - Remember to update all places where delete is used (main page AND archive page)
+---
+
+## 2026-01-11 - US-014
+- Implemented E2E test for create and view note
+- Files changed: e2e/notes.spec.ts (new file)
+- **Learnings:**
+  - Playwright tests go in e2e/ directory with .spec.ts extension
+  - Use `page.locator('form').first()` to target specific forms when page has multiple (e.g., create form + edit modal)
+  - Use scoped selectors (e.g., `form.locator('input')`) to avoid strict mode violations from duplicate elements
+  - Test flow: navigate → expand form → fill fields → save → verify note appears in grid
+  - `npm run test:e2e` runs Playwright with dev server auto-start (configured in playwright.config.ts)
+---
+
+## 2026-01-11 - US-015
+- Implemented polish and responsive design
+- Files changed: src/app/layout.tsx, src/app/page.tsx, src/app/archive/page.tsx, src/components/NoteCard.tsx, src/components/CreateNoteForm.tsx, src/components/EditNoteModal.tsx, e2e/example.spec.ts, e2e/notes.spec.ts
+- **Learnings:**
+  - Use sticky header with `sticky top-0 z-10` for persistent navigation
+  - Smooth hover transitions: `transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-[1.02]`
+  - Mobile responsive padding: `p-3 sm:p-4`, `px-4 sm:px-6`
+  - Mobile responsive text: `text-xl sm:text-2xl`
+  - Background color `bg-gray-50` provides better visual hierarchy than pure white
+  - Use `transition-opacity duration-200` for fade-in action buttons
+  - Button hover transitions: `transition-colors duration-150`
+  - When updating app title in metadata, remember to update E2E tests that check for old title
+  - Use `.first()` in Playwright assertions when duplicate elements might exist from previous test runs
+---
+
+## 2026-01-11 - US-016
+- Added isChecklist and checklistItems fields to notes schema for checklist support
+- Created ChecklistItem TypeScript interface for type safety
+- Files changed: src/db/schema.ts
+- **Learnings:**
+  - Use text field with default null for storing JSON arrays as strings (checklistItems)
+  - Export interface alongside types for shared type definitions
+  - Column name uses snake_case (is_checklist, checklist_items) but JavaScript uses camelCase
+  - Migration generated with `npm run db:generate`, applied with `npm run db:migrate`
+---
+
+## 2026-01-11 - US-017
+- Added API support for checklist notes across all endpoints
+- Files changed: src/app/api/notes/route.ts, src/app/api/notes/[id]/route.ts, src/app/api/notes/archived/route.ts
+- **Learnings:**
+  - Use JSON.stringify() when saving checklistItems array to database
+  - Use JSON.parse() when reading checklistItems from database to return parsed array to client
+  - Create helper function `parseChecklistItems()` to avoid code duplication across endpoints
+  - Helper returns `Note & { checklistItems: ChecklistItem[] | null }` type for type safety
+  - Handle null checklistItems gracefully: `note.checklistItems ? JSON.parse(note.checklistItems) : null`
+---

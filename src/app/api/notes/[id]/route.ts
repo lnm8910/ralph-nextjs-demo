@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/db'
-import { notes } from '@/db/schema'
+import { notes, Note, ChecklistItem } from '@/db/schema'
 import { eq } from 'drizzle-orm'
+
+// Helper to parse checklistItems JSON string
+function parseChecklistItems(note: Note): Note & { checklistItems: ChecklistItem[] | null } {
+  return {
+    ...note,
+    checklistItems: note.checklistItems ? JSON.parse(note.checklistItems) : null,
+  }
+}
 
 type RouteContext = {
   params: Promise<{ id: string }>
@@ -75,6 +83,13 @@ export async function PUT(request: NextRequest, context: RouteContext) {
     if (body.archived !== undefined) {
       updateData.archived = body.archived
     }
+    if (body.isChecklist !== undefined) {
+      updateData.isChecklist = body.isChecklist
+    }
+    if (body.checklistItems !== undefined) {
+      // Stringify checklistItems array for storage
+      updateData.checklistItems = body.checklistItems ? JSON.stringify(body.checklistItems) : null
+    }
 
     const result = await db
       .update(notes)
@@ -89,7 +104,8 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       )
     }
 
-    return NextResponse.json(result[0])
+    // Parse checklistItems before returning
+    return NextResponse.json(parseChecklistItems(result[0]))
   } catch (error) {
     console.error('Error updating note:', error)
     return NextResponse.json(
