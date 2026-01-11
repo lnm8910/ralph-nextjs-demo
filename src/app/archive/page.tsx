@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import type { Note } from '@/db/schema'
+import type { NoteWithChecklist } from '@/components/NoteCard'
+import type { ChecklistItem } from '@/db/schema'
 
 const colorClasses: Record<string, string> = {
   yellow: 'bg-amber-100',
@@ -14,7 +15,7 @@ const colorClasses: Record<string, string> = {
 }
 
 export default function ArchivePage() {
-  const [notes, setNotes] = useState<Note[]>([])
+  const [notes, setNotes] = useState<NoteWithChecklist[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function ArchivePage() {
     }
   }
 
-  async function handleUnarchive(note: Note) {
+  async function handleUnarchive(note: NoteWithChecklist) {
     try {
       await fetch(`/api/notes/${note.id}`, {
         method: 'PUT',
@@ -48,7 +49,7 @@ export default function ArchivePage() {
     }
   }
 
-  async function handleDelete(note: Note) {
+  async function handleDelete(note: NoteWithChecklist) {
     const confirmed = window.confirm('Are you sure you want to delete this note?')
     if (!confirmed) {
       return
@@ -125,9 +126,9 @@ export default function ArchivePage() {
 }
 
 interface ArchivedNoteCardProps {
-  note: Note
-  onUnarchive: (note: Note) => void
-  onDelete: (note: Note) => void
+  note: NoteWithChecklist
+  onUnarchive: (note: NoteWithChecklist) => void
+  onDelete: (note: NoteWithChecklist) => void
 }
 
 function ArchivedNoteCard({ note, onUnarchive, onDelete }: ArchivedNoteCardProps) {
@@ -142,10 +143,12 @@ function ArchivedNoteCard({ note, onUnarchive, onDelete }: ArchivedNoteCardProps
         <h3 className="font-medium text-gray-900 mb-2">{note.title}</h3>
       )}
 
-      {/* Content */}
-      {note.content && (
+      {/* Content - Checklist or regular text */}
+      {note.isChecklist && note.checklistItems && note.checklistItems.length > 0 ? (
+        <ChecklistDisplay items={note.checklistItems} />
+      ) : note.content ? (
         <p className="text-gray-700 text-sm whitespace-pre-wrap">{note.content}</p>
-      )}
+      ) : null}
 
       {/* Action buttons - visible on hover */}
       <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -167,6 +170,47 @@ function ArchivedNoteCard({ note, onUnarchive, onDelete }: ArchivedNoteCardProps
         </button>
       </div>
     </div>
+  )
+}
+
+// Checklist display component
+const MAX_VISIBLE_ITEMS = 5
+
+function ChecklistDisplay({ items }: { items: ChecklistItem[] }) {
+  const visibleItems = items.slice(0, MAX_VISIBLE_ITEMS)
+  const hiddenCount = items.length - MAX_VISIBLE_ITEMS
+
+  return (
+    <div className="space-y-1">
+      {visibleItems.map((item) => (
+        <div key={item.id} className="flex items-center gap-2 text-sm">
+          <CheckboxIcon checked={item.checked} className="h-4 w-4 flex-shrink-0" />
+          <span className={item.checked ? 'text-gray-500 line-through' : 'text-gray-700'}>
+            {item.text}
+          </span>
+        </div>
+      ))}
+      {hiddenCount > 0 && (
+        <p className="text-xs text-gray-500 mt-1">+ {hiddenCount} more</p>
+      )}
+    </div>
+  )
+}
+
+function CheckboxIcon({ checked, className }: { checked: boolean; className?: string }) {
+  if (checked) {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor" opacity="0.2" />
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    )
+  }
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+    </svg>
   )
 }
 

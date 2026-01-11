@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import type { Note } from '@/db/schema'
+import type { NoteWithChecklist } from '@/components/NoteCard'
 
 const colors = [
   { name: 'yellow', class: 'bg-amber-100', ring: 'ring-amber-300' },
@@ -13,9 +13,9 @@ const colors = [
 ]
 
 interface EditNoteModalProps {
-  note: Note | null
+  note: NoteWithChecklist | null
   onClose: () => void
-  onSave: (note: Note) => void
+  onSave: (note: NoteWithChecklist) => void
 }
 
 export function EditNoteModal({ note, onClose, onSave }: EditNoteModalProps) {

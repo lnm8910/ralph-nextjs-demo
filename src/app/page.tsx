@@ -2,10 +2,9 @@
 
 import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
-import { NoteCard } from '@/components/NoteCard'
+import { NoteCard, type NoteWithChecklist } from '@/components/NoteCard'
 import { CreateNoteForm } from '@/components/CreateNoteForm'
 import { EditNoteModal } from '@/components/EditNoteModal'
-import type { Note } from '@/db/schema'
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value)
@@ -24,9 +23,9 @@ function useDebounce<T>(value: T, delay: number): T {
 }
 
 export default function Home() {
-  const [notes, setNotes] = useState<Note[]>([])
+  const [notes, setNotes] = useState<NoteWithChecklist[]>([])
   const [loading, setLoading] = useState(true)
-  const [editingNote, setEditingNote] = useState<Note | null>(null)
+  const [editingNote, setEditingNote] = useState<NoteWithChecklist | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearchQuery = useDebounce(searchQuery, 300)
 
@@ -60,7 +59,7 @@ export default function Home() {
     }
   }
 
-  async function handlePin(note: Note) {
+  async function handlePin(note: NoteWithChecklist) {
     const newPinnedState = !note.pinned
 
     // Optimistic update: immediately update the UI
@@ -96,7 +95,7 @@ export default function Home() {
     }
   }
 
-  async function handleArchive(note: Note) {
+  async function handleArchive(note: NoteWithChecklist) {
     try {
       await fetch(`/api/notes/${note.id}`, {
         method: 'PUT',
@@ -109,7 +108,7 @@ export default function Home() {
     }
   }
 
-  async function handleDelete(note: Note) {
+  async function handleDelete(note: NoteWithChecklist) {
     const confirmed = window.confirm('Are you sure you want to delete this note?')
     if (!confirmed) {
       return
@@ -125,7 +124,7 @@ export default function Home() {
     }
   }
 
-  function handleNoteClick(note: Note) {
+  function handleNoteClick(note: NoteWithChecklist) {
     setEditingNote(note)
   }
 
