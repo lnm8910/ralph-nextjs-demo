@@ -1,6 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/db'
 import { notes, NewNote } from '@/db/schema'
+import { desc, eq } from 'drizzle-orm'
+
+export async function GET() {
+  try {
+    // Get all non-archived notes, pinned first, then by createdAt desc
+    const result = await db
+      .select()
+      .from(notes)
+      .where(eq(notes.archived, false))
+      .orderBy(desc(notes.pinned), desc(notes.createdAt))
+
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error('Error fetching notes:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch notes' },
+      { status: 500 }
+    )
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
