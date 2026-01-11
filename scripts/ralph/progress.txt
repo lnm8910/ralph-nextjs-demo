@@ -2,21 +2,6 @@
 
 Started: 2025-01-11
 
-## Multi-Agent System
-
-This project uses three specialized agents:
-- **Product Manager**: Manages backlog, writes stories, sets priorities
-- **Developer**: Implements stories, writes code, runs typecheck
-- **Tester**: Verifies acceptance criteria, marks stories as passed/failed
-
-## Story Status Flow
-
-```
-pending → ready → in_progress → testing → done
-              ↑                      |
-              └──── (if fails) ──────┘
-```
-
 ## Codebase Patterns
 - Next.js 16 with App Router (src/app directory)
 - Drizzle ORM for SQLite (schema in src/db/schema.ts)
@@ -41,4 +26,76 @@ pending → ready → in_progress → testing → done
 - gray: bg-gray-100 (#f3f4f6)
 
 ---
-<!-- Agents will append progress entries below this line -->
+
+## 2026-01-11 - US-001
+- Implemented full notes table schema with all required fields
+- Files changed: src/db/schema.ts
+- **Learnings:**
+  - Drizzle uses integer with mode: 'boolean' for boolean fields in SQLite
+  - Drizzle uses integer with mode: 'timestamp' for dates in SQLite
+  - Added Note and NewNote types for type safety
+  - drizzle folder is gitignored, migrations are generated but not committed
+---
+
+## 2026-01-11 - US-002
+- Implemented POST /api/notes endpoint to create notes
+- Files changed: src/app/api/notes/route.ts (new file)
+- **Learnings:**
+  - Next.js 16 Route Handlers use NextRequest and NextResponse from next/server
+  - Use db.insert(table).values(data).returning() to get the created record with Drizzle
+  - Import path alias @/db works for src/db directory
+  - Validate input before inserting to database
+---
+
+## 2026-01-11 - US-003
+- Implemented GET /api/notes endpoint to list non-archived notes
+- Files changed: src/app/api/notes/route.ts
+- **Learnings:**
+  - Use `eq` from drizzle-orm for equality comparisons in where clause
+  - Use `desc` from drizzle-orm for descending order
+  - Multiple orderBy columns: `.orderBy(desc(col1), desc(col2))` - first has highest priority
+  - GET handlers don't need NextRequest parameter if not using query params
+---
+
+## 2026-01-11 - US-004
+- Implemented PUT /api/notes/[id] endpoint to update notes
+- Files changed: src/app/api/notes/[id]/route.ts (new file)
+- **Learnings:**
+  - Next.js 16 dynamic route params are now async: `context.params` returns a Promise
+  - Use `type RouteContext = { params: Promise<{ id: string }> }` for type safety
+  - Use `db.update(table).set(data).where(condition).returning()` for updates with Drizzle
+  - Build update object dynamically to only include provided fields
+  - Always update updatedAt timestamp when modifying a record
+---
+
+## 2026-01-11 - US-005
+- Implemented DELETE /api/notes/[id] endpoint to delete notes
+- Files changed: src/app/api/notes/[id]/route.ts
+- **Learnings:**
+  - Use `db.delete(table).where(condition).returning()` for deletes with Drizzle
+  - Return `new NextResponse(null, { status: 204 })` for successful delete with no content
+  - Prefix unused request parameter with underscore: `_request` to avoid lint warnings
+  - Check `.returning()` result length to determine if record was found
+---
+
+## 2026-01-11 - US-006
+- Implemented NoteCard component with all required features
+- Files changed: src/components/NoteCard.tsx (new file)
+- **Learnings:**
+  - Use 'use client' directive for components with event handlers
+  - Use group/group-hover pattern for showing action buttons on hover
+  - Use e.stopPropagation() to prevent card click when clicking action buttons
+  - Color classes map: yellow=bg-amber-100, green=bg-emerald-100, blue=bg-blue-100, pink=bg-pink-100, purple=bg-violet-100, gray=bg-gray-100
+  - Inline SVG icons for pin (filled/outline), archive, delete
+---
+
+## 2026-01-11 - US-007
+- Implemented notes grid layout on main page
+- Files changed: src/app/page.tsx
+- **Learnings:**
+  - Use 'use client' for components that need useState/useEffect
+  - Responsive grid: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4`
+  - Fetch notes from API in useEffect with loading state
+  - Handler functions for pin, archive, delete that call API and refetch notes
+  - Empty state shows friendly message when no notes exist
+---
