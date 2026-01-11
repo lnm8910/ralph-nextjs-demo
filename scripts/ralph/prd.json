@@ -264,7 +264,7 @@
         "typecheck passes"
       ],
       "priority": 18,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": "Read-only display in card, editing in modal"
     },
@@ -280,7 +280,7 @@
         "typecheck passes"
       ],
       "priority": 19,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": "Use a list icon or checkbox icon for toggle"
     },
@@ -297,7 +297,7 @@
         "typecheck passes"
       ],
       "priority": 20,
-      "passes": false,
+      "passes": true,
       "failedAttempts": 0,
       "notes": "Full CRUD for checklist items within the modal"
     }

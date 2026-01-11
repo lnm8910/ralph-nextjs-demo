@@ -214,3 +214,45 @@ Started: 2025-01-11
   - Helper returns `Note & { checklistItems: ChecklistItem[] | null }` type for type safety
   - Handle null checklistItems gracefully: `note.checklistItems ? JSON.parse(note.checklistItems) : null`
 ---
+
+## 2026-01-11 - US-018
+- Implemented checklist display in NoteCard component
+- Files changed: src/components/NoteCard.tsx, src/components/EditNoteModal.tsx, src/app/page.tsx, src/app/archive/page.tsx
+- **Learnings:**
+  - Created `NoteWithChecklist` interface to properly type parsed checklistItems from API
+  - Export the type from NoteCard so it can be imported by page components
+  - Use `Omit<Note, 'checklistItems'>` to remove the string type and replace with `ChecklistItem[] | null`
+  - Checklist display shows up to 5 items with "+ N more" indicator for longer lists
+  - Use `.slice(0, MAX_VISIBLE_ITEMS)` to limit displayed items
+  - Checked items use `line-through` class for strikethrough styling
+  - CheckboxIcon component uses SVG with filled background for checked state
+---
+
+## 2026-01-11 - US-019
+- Implemented checklist mode toggle in CreateNoteForm component
+- Files changed: src/components/CreateNoteForm.tsx
+- **Learnings:**
+  - Use `crypto.randomUUID()` to generate unique IDs for new checklist items
+  - Toggle between text/checklist mode with state: `isChecklist`, `checklistItems`, `newItemText`
+  - Handle Enter key in input with `onKeyDown` handler to add items without form submission
+  - Use `e.preventDefault()` in key handler to prevent form submission on Enter
+  - Show/hide remove buttons on hover using `opacity-0 group-hover:opacity-100` pattern
+  - Toggle button visual: active state uses `text-blue-600 bg-blue-100`, inactive uses `text-gray-500 hover:bg-black/5`
+  - Submit body conditionally includes `checklistItems` array (not stringified - API handles that)
+  - Reset all checklist state on successful submit: `isChecklist`, `checklistItems`, `newItemText`
+---
+
+## 2026-01-11 - US-020
+- Implemented full checklist editing in EditNoteModal component
+- Files changed: src/components/EditNoteModal.tsx
+- **Learnings:**
+  - Import `ChecklistItem` type from schema for local state typing
+  - Initialize checklistItems state from `note.checklistItems || []` when note changes
+  - Toggle checkbox: use functional setState that maps items and flips `checked` for matching id
+  - Inline text editing: use input field for each item text with onChange handler
+  - Delete item: use filter to remove item with matching id
+  - Add item: create new ChecklistItem with `crypto.randomUUID()` and spread into state array
+  - Add `max-h-64 overflow-y-auto` to checklist container for scrollable long lists
+  - Conditionally include checklistItems or content in request body based on `note.isChecklist`
+  - Use same visual patterns as CreateNoteForm for consistency (rounded-full checkbox, group-hover for delete button)
+---
